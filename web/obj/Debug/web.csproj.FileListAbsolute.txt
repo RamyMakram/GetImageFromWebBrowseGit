@@ -37,3 +37,7 @@ D:\GetImageFromWebBrowseGit\web\obj\Debug\web.Properties.Resources.resources
 D:\GetImageFromWebBrowseGit\web\obj\Debug\web.csproj.GenerateResource.cache
 D:\GetImageFromWebBrowseGit\web\obj\Debug\web.exe
 D:\GetImageFromWebBrowseGit\web\obj\Debug\web.pdb
+D:\GetImageFromWebBrowseGit\web\bin\Debug\web.exe.manifest
+D:\GetImageFromWebBrowseGit\web\bin\Debug\web.application
+D:\GetImageFromWebBrowseGit\web\obj\Debug\web.exe.manifest
+D:\GetImageFromWebBrowseGit\web\obj\Debug\web.application
