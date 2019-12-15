@@ -48,14 +48,12 @@ namespace web
                 string ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
                 web.Navigate(ss);
                 url++;
-                LBLCount.Text = url.ToString();
             }
             else if (url > End.Value)
             {
                 t.Stop();
                 button1.Enabled = true;
                 this.panel1.Enabled = true;
-                LBLCount.Text = url.ToString();
             }
             Debug.WriteLine(url);
         }
@@ -64,6 +62,7 @@ namespace web
         {
             try
             {
+                LBLCount.Text = url.ToString();
                 HtmlElementCollection s = this.web.Document.GetElementsByTagName("img");
                 for (int i = 0; i < s.Count; i++)
                 {

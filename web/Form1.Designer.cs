@@ -187,7 +187,7 @@ namespace web
             // LBLSheetPath
             // 
             this.LBLSheetPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.LBLSheetPath.Location = new System.Drawing.Point(127, 45);
+            this.LBLSheetPath.Location = new System.Drawing.Point(87, 48);
             this.LBLSheetPath.Name = "LBLSheetPath";
             this.LBLSheetPath.Size = new System.Drawing.Size(260, 13);
             this.LBLSheetPath.TabIndex = 7;
@@ -196,7 +196,7 @@ namespace web
             // LBLImgPath
             // 
             this.LBLImgPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.LBLImgPath.Location = new System.Drawing.Point(83, 109);
+            this.LBLImgPath.Location = new System.Drawing.Point(53, 109);
             this.LBLImgPath.Name = "LBLImgPath";
             this.LBLImgPath.Size = new System.Drawing.Size(309, 13);
             this.LBLImgPath.TabIndex = 7;
@@ -206,7 +206,6 @@ namespace web
             // 
             this.panel1.Controls.Add(this.LBLCount);
             this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.web);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.LBLSheetPath);
             this.panel1.Controls.Add(this.Start);
@@ -217,13 +216,12 @@ namespace web
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.SheetNum);
             this.panel1.Controls.Add(this.button3);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.panel1.Size = new System.Drawing.Size(652, 603);
+            this.panel1.Size = new System.Drawing.Size(652, 145);
             this.panel1.TabIndex = 10;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // LBLCount
             // 
@@ -239,12 +237,15 @@ namespace web
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 603);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.web);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.RightToLeftLayout = true;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Start)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.End)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SheetNum)).EndInit();
