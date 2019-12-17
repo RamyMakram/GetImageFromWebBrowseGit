@@ -45,6 +45,8 @@ namespace web
             this.LBLImgPath = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.LBLCount = new System.Windows.Forms.Label();
+            this.Stop = new System.Windows.Forms.Button();
+            this.Run = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Start)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.End)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SheetNum)).BeginInit();
@@ -54,11 +56,11 @@ namespace web
             // web
             // 
             this.web.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.web.Location = new System.Drawing.Point(0, 150);
+            this.web.Location = new System.Drawing.Point(0, 156);
             this.web.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.web.MinimumSize = new System.Drawing.Size(17, 16);
             this.web.Name = "web";
-            this.web.Size = new System.Drawing.Size(652, 453);
+            this.web.Size = new System.Drawing.Size(652, 593);
             this.web.TabIndex = 0;
             // 
             // button1
@@ -187,20 +189,20 @@ namespace web
             // LBLSheetPath
             // 
             this.LBLSheetPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.LBLSheetPath.Location = new System.Drawing.Point(87, 48);
+            this.LBLSheetPath.Location = new System.Drawing.Point(87, 37);
             this.LBLSheetPath.Name = "LBLSheetPath";
             this.LBLSheetPath.Size = new System.Drawing.Size(260, 13);
             this.LBLSheetPath.TabIndex = 7;
-            this.LBLSheetPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LBLSheetPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // LBLImgPath
             // 
             this.LBLImgPath.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.LBLImgPath.Location = new System.Drawing.Point(53, 109);
+            this.LBLImgPath.Location = new System.Drawing.Point(53, 98);
             this.LBLImgPath.Name = "LBLImgPath";
             this.LBLImgPath.Size = new System.Drawing.Size(309, 13);
             this.LBLImgPath.TabIndex = 7;
-            this.LBLImgPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LBLImgPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel1
             // 
@@ -220,7 +222,7 @@ namespace web
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.panel1.Size = new System.Drawing.Size(652, 145);
+            this.panel1.Size = new System.Drawing.Size(652, 122);
             this.panel1.TabIndex = 10;
             // 
             // LBLCount
@@ -231,21 +233,42 @@ namespace web
             this.LBLCount.Size = new System.Drawing.Size(0, 13);
             this.LBLCount.TabIndex = 10;
             // 
+            // Stop
+            // 
+            this.Stop.Location = new System.Drawing.Point(588, 128);
+            this.Stop.Name = "Stop";
+            this.Stop.Size = new System.Drawing.Size(49, 23);
+            this.Stop.TabIndex = 4;
+            this.Stop.Text = "| | Stop";
+            this.Stop.UseVisualStyleBackColor = true;
+            this.Stop.Click += new System.EventHandler(this.Stop_Click);
+            // 
+            // Run
+            // 
+            this.Run.Location = new System.Drawing.Point(533, 128);
+            this.Run.Name = "Run";
+            this.Run.Size = new System.Drawing.Size(49, 23);
+            this.Run.TabIndex = 4;
+            this.Run.Text = "<| Run";
+            this.Run.UseVisualStyleBackColor = true;
+            this.Run.Click += new System.EventHandler(this.Run_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 603);
+            this.ClientSize = new System.Drawing.Size(652, 749);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.web);
+            this.Controls.Add(this.Run);
+            this.Controls.Add(this.Stop);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
-            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Home";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.Start)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.End)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SheetNum)).EndInit();
@@ -272,6 +295,8 @@ namespace web
         private Label LBLImgPath;
         private Panel panel1;
         private Label LBLCount;
+        private Button Stop;
+        private Button Run;
     }
 }
 

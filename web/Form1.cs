@@ -21,13 +21,16 @@ namespace web
     public partial class Form1 : Form
     {
         OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Database3.accdb");
-        int url = 3;
+        static int url = 4;
         DataSet ds;
         private bool Enter = true;
         Microsoft.Office.Interop.Excel.Worksheet sh;
         string PathSheet = "";
         string ImgFolder = "";
         System.Timers.Timer t;
+        Microsoft.Office.Interop.Excel.Workbook wb;
+        string ProName = "";
+        string ss = "";
         public Form1()
         {
             InitializeComponent();
@@ -36,24 +39,27 @@ namespace web
         {
             if (url == Start.Value)
             {
-                string ProName = sh.Cells[url, 2].Value.ToString();
-                string ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
+                ProName = sh.Cells[url, 2].Value.ToString();
+                ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
                 web.Navigate(ss);
                 url++;
             }
             else if (!Enter && url <= End.Value)
             {
                 Enter = true;
-                string ProName = sh.Cells[url, 2].Value.ToString();
-                string ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
+                ProName = sh.Cells[url, 2].Value.ToString();
+                ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
                 web.Navigate(ss);
                 url++;
             }
             else if (url > End.Value)
             {
                 t.Stop();
-                button1.Enabled = true;
                 this.panel1.Enabled = true;
+            }
+            else
+            {
+                web.Navigate(ss);
             }
             Debug.WriteLine(url);
         }
@@ -62,23 +68,26 @@ namespace web
         {
             try
             {
-                LBLCount.Text = url.ToString();
-                HtmlElementCollection s = this.web.Document.GetElementsByTagName("img");
-                for (int i = 0; i < s.Count; i++)
+                LBLCount.Text = (url).ToString();
+                string Path = ImgFolder + "\\" + sh.Cells[url - 1, 1].Value.ToString() + ".png";
+                var Elements = this.web.Document.GetElementsByTagName("img");
+                for (int i = 2; i < 300; i++)
                 {
-                    string imgUrl = s[i].GetAttribute("src");
-                    if (imgUrl != "" && !imgUrl.StartsWith("https://www.google") && !imgUrl.Split(',')[0].Contains("svg"))
+                    string imgUrl = Elements[i].GetAttribute("src");
+                    if (imgUrl != "" && !imgUrl.StartsWith("https://www.google") && !imgUrl.Contains("svg"))
                     {
-                        string base64 = imgUrl.Split(',')[1];
-                        File.WriteAllBytes(ImgFolder + "\\" + sh.Cells[url - 1, 1].Value.ToString() + ".png", Convert.FromBase64String(base64));
+                        byte[] Arr = Convert.FromBase64String(imgUrl.Split(',')[1]);
+                        File.WriteAllBytes(Path, Arr);
                         Enter = false;
                         break;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ث)
             {
-                MessageBox.Show("error in " + url.ToString());
+                MessageBox.Show("Error In Row Number # " + (url).ToString());
+                Enter = true;
+                t.Stop();
             }
         }
 
@@ -86,16 +95,13 @@ namespace web
         {
             if (PathSheet != "" && ImgFolder != "")
             {
+                url = (int)Start.Value;
                 LBLCount.Text = url.ToString();
                 button1.Enabled = false;
                 this.panel1.Enabled = false;
-                url = (int)Start.Value;
-                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
-                ExcelApp.Visible = true;
-                Microsoft.Office.Interop.Excel.Workbook wb = ExcelApp.Workbooks.Open(PathSheet, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
                 sh = (Microsoft.Office.Interop.Excel.Worksheet)wb.Sheets[SheetNum.Value];
                 web.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
-                t = new System.Timers.Timer(3000);
+                t = new System.Timers.Timer(5000);
                 t.Elapsed += new System.Timers.ElapsedEventHandler(Session_Start);
                 t.Start();
             }
@@ -124,6 +130,9 @@ namespace web
             {
                 PathSheet = openFileDialog1.FileName;
                 LBLSheetPath.Text = PathSheet;
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                ExcelApp.Visible = true;
+                wb = ExcelApp.Workbooks.Open(PathSheet, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value);
             }
         }
 
@@ -137,6 +146,16 @@ namespace web
                 ImgFolder = folderDlg.SelectedPath;
                 LBLImgPath.Text = ImgFolder;
             }
+        }
+
+        private void Stop_Click(object sender, EventArgs e)
+        {
+            t.Stop();
+        }
+
+        private void Run_Click(object sender, EventArgs e)
+        {
+            t.Start();
         }
     }
 }
