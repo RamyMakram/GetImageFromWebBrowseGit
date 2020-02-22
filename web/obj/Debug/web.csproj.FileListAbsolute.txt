@@ -41,3 +41,16 @@ D:\GetImageFromWebBrowseGit\web\bin\Debug\web.exe.manifest
 D:\GetImageFromWebBrowseGit\web\bin\Debug\web.application
 D:\GetImageFromWebBrowseGit\web\obj\Debug\web.exe.manifest
 D:\GetImageFromWebBrowseGit\web\obj\Debug\web.application
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\bin\Debug\web.exe.config
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\bin\Debug\web.exe.manifest
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\bin\Debug\web.application
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\bin\Debug\web.exe
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\bin\Debug\web.pdb
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.csprojAssemblyReference.cache
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.Form1.resources
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.Properties.Resources.resources
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.csproj.GenerateResource.cache
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.exe.manifest
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.application
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.exe
+C:\Users\RamyM\Desktop\GetImageFromWebBrowseGit\web\obj\Debug\web.pdb
