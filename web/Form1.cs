@@ -1,26 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
-using mshtml;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Diagnostics;
-using System.Threading;
 using System.Reflection;
+using System.Threading;
 
 namespace web
 {
 	public partial class Form1 : Form
 	{
-		OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Database3.accdb");
+		MultiThreadSort.Semaphore sema;
 		static int url = 4;
 		DataSet ds;
 		private bool Enter = true;
@@ -35,40 +26,31 @@ namespace web
 		{
 			InitializeComponent();
 		}
-		void Session_Start(object sender, System.Timers.ElapsedEventArgs e)
+		async void navigate()
 		{
-			if (url == Start.Value)
+			lock (this)
 			{
-				ProName = sh.Cells[url, 2].Value.ToString();
-				ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
-				web.Navigate(ss);
-				url++;
+				if (url <= End.Value)
+				{
+					Enter = true;
+					ProName = sh.Cells[url, 2].Value.ToString();
+					ss = "https://www.google.com/search?tbm=isch&q=" + Uri.EscapeDataString(ProName);
+					web.Navigate(ss);
+					url++;
+					sema.Wait();
+				}
+				else
+				{
+					t.Stop();
+					this.panel1.Enabled = true;
+				}
 			}
-			else if (!Enter && url <= End.Value)
-			{
-				Enter = true;
-				ProName = sh.Cells[url, 2].Value.ToString();
-				ss = "https://www.google.com/search?biw=1366&bih=663&tbm=isch&sxsrf=ACYBGNRsFK23-nOW5PQf_E_XfAHl3lGxrg%3A1576403238675&sa=1&ei=JgH2XYXMKNTygQb5loeYCA&q=" + Uri.EscapeDataString(ProName);
-				web.Navigate(ss);
-				url++;
-			}
-			else if (url > End.Value)
-			{
-				t.Stop();
-				this.panel1.Enabled = true;
-			}
-			else
-			{
-				web.Navigate(ss);
-			}
-			Debug.WriteLine(url);
 		}
-
-		private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+		private async void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
 		{
 			try
 			{
-				LBLCount.Text = (url).ToString();
+				LBLCount.Text = url.ToString();
 				string Path = ImgFolder + "\\" + sh.Cells[url - 1, 1].Value.ToString() + ".png";
 				var Elements = this.web.Document.GetElementsByTagName("img");
 				for (int i = 2; i < 300; i++)
@@ -78,7 +60,12 @@ namespace web
 					{
 						byte[] Arr = Convert.FromBase64String(imgUrl.Split(',')[1]);
 						File.WriteAllBytes(Path, Arr);
-						Enter = false;
+						if (File.Exists(Path) && File.Open(Path, FileMode.Open).Length != 0)
+						{
+							sema.Signal();
+							navigate();
+						}
+						else Thread.Sleep(100);
 						break;
 					}
 				}
@@ -87,12 +74,13 @@ namespace web
 			{
 				MessageBox.Show("Error In Row Number # " + (url).ToString());
 				Enter = true;
-				t.Stop();
 			}
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
+			sema = new MultiThreadSort.Semaphore(1);
+			web.ScriptErrorsSuppressed = true;
 			if (PathSheet != "" && ImgFolder != "")
 			{
 				url = (int)Start.Value;
@@ -100,10 +88,11 @@ namespace web
 				button1.Enabled = false;
 				this.panel1.Enabled = false;
 				sh = (Microsoft.Office.Interop.Excel.Worksheet)wb.Sheets[SheetNum.Value];
+				ProName = sh.Cells[url, 2].Value.ToString();
+				ss = "https://www.google.com/search?tbm=isch&q=" + Uri.EscapeDataString(ProName);
+				web.Navigate(ss);
+				url++;
 				web.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
-				t = new System.Timers.Timer((double)TimesSpan.Value);
-				t.Elapsed += new System.Timers.ElapsedEventHandler(Session_Start);
-				t.Start();
 			}
 		}
 
@@ -150,12 +139,13 @@ namespace web
 
 		private void Stop_Click(object sender, EventArgs e)
 		{
-			t.Stop();
+			web.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
 		}
 
 		private void Run_Click(object sender, EventArgs e)
 		{
-			t.Start();
+			sema.Wait();
+			web.Stop();
 		}
 	}
 }
